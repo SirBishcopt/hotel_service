@@ -5,23 +5,37 @@ public class Hotel {
 
     private List<Room> rooms = new ArrayList<>();
 
-    public Hotel() {
-        rooms.add(new Room(1));
-        rooms.add(new Room(2));
-        rooms.add(new Room(3));
-        rooms.add(new Room(4));
-        rooms.add(new Room(5));
-        rooms.add(new Room(6));
-        rooms.add(new Room(7));
-        rooms.add(new Room(8));
-        rooms.add(new Room(9));
-        rooms.add(new Room(10));
-        rooms.add(new Room(11));
-        rooms.add(new Room(12));
+    public Hotel(int numberOfRooms) {
+        for (int i = 0; i < numberOfRooms; i++) {
+            rooms.add(new Room());
+        }
     }
 
     public List<Room> getRooms() {
         return rooms;
+    }
+
+    public List<Room> getAvailableRooms() {
+        List<Room> availableRooms = new ArrayList<>();
+        for (Room room : rooms) {
+            if (room.isAvailable()) {
+                availableRooms.add(room);
+            }
+        }
+        return availableRooms;
+    }
+
+    public Room getRoomOfGivenNumber(int roomNumber) {
+        Room selectedRoom = null;
+        for (Room room : rooms) {
+            if (room.getRoomNumber() == roomNumber) {
+                selectedRoom = room;
+            }
+        }
+        if (selectedRoom == null) {
+            throw new RoomDoesNotExistException();
+        }
+        return selectedRoom;
     }
 
 }

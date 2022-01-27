@@ -6,10 +6,12 @@ public class Room {
     private int numberOfPersons;
     private boolean hasPrivateBathroom;
     private boolean isAvailable;
+    private static int numberOfRoomsCreated = 0;
 
-    public Room(int roomNumber) {
+    public Room() {
         Random random = new Random();
-        this.roomNumber = roomNumber;
+        numberOfRoomsCreated++;
+        roomNumber = numberOfRoomsCreated;
         numberOfPersons = random.nextInt(6)+1;
         hasPrivateBathroom = random.nextBoolean();
         isAvailable = random.nextBoolean();
@@ -27,4 +29,14 @@ public class Room {
         return roomNumber;
     }
 
+    @Override
+    public String toString() {
+        String availability;
+        if (isAvailable){
+            availability = "is available";
+        } else {
+            availability = "is occupied";
+        }
+        return "Room " + roomNumber + ": " + availability;
+    }
 }

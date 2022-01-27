@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class UserService {
 
@@ -9,57 +10,52 @@ public class UserService {
         this.hotel = hotel;
     }
 
-    public List<Room> getListOfAllRooms() {
-        return hotel.getRooms();
-    }
-
-    public List<Room> getListOfAvailableRooms() {
-        List<Room> availableRooms = new ArrayList<>();
+    public void listAllRoomsWithStatus() {
+        System.out.println("\nList of all rooms:\n");
         List<Room> allRooms = hotel.getRooms();
         for (Room room : allRooms) {
-            if (room.isAvailable()) {
-                availableRooms.add(room);
-            }
+            System.out.println(room);
         }
-        return availableRooms;
     }
 
-    public void markRoomAsOccupied(int roomNumber) {
-        List<Room> allRooms = hotel.getRooms();
-        Room selectedRoom = null;
-        for (Room room : allRooms) {
-            if (room.getRoomNumber() == roomNumber) {
-                selectedRoom = room;
-            }
+    public void listAvailableRooms() {
+        System.out.println("\nList of all rooms:\n");
+        List<Room> availableRooms = hotel.getAvailableRooms();
+        for (Room room : availableRooms) {
+            System.out.println(room);
         }
-        if (selectedRoom == null) {
-            throw new RoomDoesNotExistException();
+    }
+
+    public void checkIn(){
+        System.out.println("Enter room's number:");
+        Scanner scanner = new Scanner(System.in);
+        int selection = scanner.nextInt();
+        scanner.nextLine();
+        markRoomAsOccupied(selection);
+        System.out.println(hotel.getRoomOfGivenNumber(selection));
+    }
+
+    private void markRoomAsOccupied(int roomNumber) {
+        Room selectedRoom = hotel.getRoomOfGivenNumber(roomNumber);
+        if (selectedRoom.isAvailable()) {
+            selectedRoom.setAvailable(false);
         } else {
-            if (selectedRoom.isAvailable()) {
-                selectedRoom.setAvailable(false);
-            } else {
-                throw new RoomIsOccupiedException();
-            }
+            throw new RoomIsOccupiedException();
         }
     }
 
-    public void markRoomAsAvailable(int roomNumber) {
-        List<Room> allRooms = hotel.getRooms();
-        Room selectedRoom = null;
-        for (Room room : allRooms) {
-            if (room.getRoomNumber() == roomNumber) {
-                selectedRoom = room;
-            }
-        }
-        if (selectedRoom == null) {
-            throw new RoomDoesNotExistException();
-        } else {
-            if (!selectedRoom.isAvailable()) {
-                selectedRoom.setAvailable(true);
-            } else {
-                throw new RoomIsOccupiedException();
-            }
-        }
+    public void checkOut(){
+        System.out.println("Enter room's number:");
+        Scanner scanner = new Scanner(System.in);
+        int selection = scanner.nextInt();
+        scanner.nextLine();
+        markRoomAsAvailable(selection);
+        System.out.println(hotel.getRoomOfGivenNumber(selection));
+    }
+
+    private void markRoomAsAvailable(int roomNumber) {
+        Room selectedRoom = hotel.getRoomOfGivenNumber(roomNumber);
+        selectedRoom.setAvailable(true);
     }
 
 }
