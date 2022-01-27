@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Room {
@@ -6,6 +8,7 @@ public class Room {
     private int numberOfPersons;
     private boolean hasPrivateBathroom;
     private boolean isAvailable;
+    private List<Guest> guests = new ArrayList<>();
     private static int numberOfRoomsCreated = 0;
 
     public Room() {
@@ -29,6 +32,10 @@ public class Room {
         return roomNumber;
     }
 
+    public int getNumberOfPersons() {
+        return numberOfPersons;
+    }
+
     @Override
     public String toString() {
         String availability;
@@ -39,4 +46,22 @@ public class Room {
         }
         return "Room " + roomNumber + ": " + availability;
     }
+
+    public void addGuest (Guest guest){
+        guests.add(guest);
+    }
+
+    public void clearGuests(){
+        guests.clear();
+    }
+
+    public boolean isAnyGuestOver18() {
+        for (Guest guest : guests) {
+            if (guest.getAge() > 18){
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
