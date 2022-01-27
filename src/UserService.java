@@ -26,7 +26,7 @@ public class UserService {
         }
     }
 
-    public void checkIn(){
+    public void checkIn() {
         System.out.println("Enter room's number:");
         Scanner scanner = new Scanner(System.in);
         int selection = scanner.nextInt();
@@ -44,7 +44,7 @@ public class UserService {
         }
     }
 
-    public void checkOut(){
+    public void checkOut() {
         System.out.println("Enter room's number:");
         Scanner scanner = new Scanner(System.in);
         int selection = scanner.nextInt();
