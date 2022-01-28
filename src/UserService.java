@@ -41,6 +41,7 @@ public class UserService {
         scanner.nextLine();
         Room selectedRoom = hotel.getRoomOfGivenNumber(selection);
         selectedRoom.setClean(true);
+        System.out.println(selectedRoom);
     }
 
     public void checkIn() {
