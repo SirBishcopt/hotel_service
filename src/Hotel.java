@@ -38,4 +38,19 @@ public class Hotel {
         return selectedRoom;
     }
 
+    public void cleanRoom (int roomNumber){
+        Room selectedRoom = getRoomOfGivenNumber(roomNumber);
+        selectedRoom.setClean(true);
+    }
+
+    public List<Room> getCleanRooms() {
+        List<Room> cleanRooms = new ArrayList<>();
+        for (Room room : rooms) {
+            if (room.isClean()) {
+                cleanRooms.add(room);
+            }
+        }
+        return cleanRooms;
+    }
+
 }

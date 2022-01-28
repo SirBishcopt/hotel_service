@@ -9,6 +9,7 @@ public class Room {
     private boolean hasPrivateBathroom;
     private boolean isAvailable;
     private List<Guest> guests = new ArrayList<>();
+    private boolean isClean = true;
     private static int numberOfRoomsCreated = 0;
 
     public Room() {
@@ -44,7 +45,13 @@ public class Room {
         } else {
             availability = "is occupied";
         }
-        return "Room " + roomNumber + ": " + availability;
+        String cleanliness;
+        if (isClean){
+            cleanliness = "is clean";
+        } else {
+            cleanliness = "needs cleaning";
+        }
+        return "Room " + roomNumber + ": " + availability + ", " + cleanliness;
     }
 
     public void addGuest (Guest guest){
@@ -62,6 +69,14 @@ public class Room {
             }
         }
         return false;
+    }
+
+    public void setClean(boolean clean) {
+        isClean = clean;
+    }
+
+    public boolean isClean() {
+        return isClean;
     }
 
 }

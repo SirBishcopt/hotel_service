@@ -1,5 +1,4 @@
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -20,11 +19,28 @@ public class UserService {
     }
 
     public void listAvailableRooms() {
-        System.out.println("\nList of all rooms:\n");
+        System.out.println("\nList of available rooms:\n");
         List<Room> availableRooms = hotel.getAvailableRooms();
         for (Room room : availableRooms) {
             System.out.println(room);
         }
+    }
+
+    public void listCleanRooms() {
+        System.out.println("\nList of clean rooms:\n");
+        List<Room> cleanRooms = hotel.getCleanRooms();
+        for (Room room : cleanRooms) {
+            System.out.println(room);
+        }
+    }
+
+    public void cleanRoom(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter room's number:");
+        int selection = scanner.nextInt();
+        scanner.nextLine();
+        Room selectedRoom = hotel.getRoomOfGivenNumber(selection);
+        selectedRoom.setClean(true);
     }
 
     public void checkIn() {
@@ -102,10 +118,10 @@ public class UserService {
     }
 
     private void markRoomAsOccupied(Room selectedRoom) {
-        if (selectedRoom.isAvailable()) {
+        if (selectedRoom.isAvailable() && selectedRoom.isClean()) {
             selectedRoom.setAvailable(false);
         } else {
-            throw new RoomIsOccupiedException();
+            throw new RoomNotReadyToCheckInException();
         }
     }
 
@@ -122,6 +138,7 @@ public class UserService {
         Room selectedRoom = hotel.getRoomOfGivenNumber(roomNumber);
         selectedRoom.clearGuests();
         selectedRoom.setAvailable(true);
+        selectedRoom.setClean(false);
     }
 
 }
