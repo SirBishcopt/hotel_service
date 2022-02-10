@@ -15,11 +15,12 @@ public class Menu {
                 "\nWelcome to Hotel Service. What would you like to do? \n" +
                         "  1) List all rooms (with status).\n" +
                         "  2) List available rooms.\n" +
-                        "  3) List clean rooms.\n" +
-                        "  4) Clean room.\n" +
-                        "  5) Room check-in.\n" +
-                        "  6) Room check-out.\n" +
-                        "  7) Exit Hotel Service.\n"
+                        "  3) List occupated rooms.\n" +
+                        "  4) List clean rooms.\n" +
+                        "  5) Clean room.\n" +
+                        "  6) Room check-in.\n" +
+                        "  7) Room check-out.\n" +
+                        "  8) Exit Hotel Service.\n"
         );
 
         String selection = scanner.nextLine();
@@ -33,18 +34,21 @@ public class Menu {
                     userService.listAvailableRooms();
                     return true;
                 case "3":
-                    userService.listCleanRooms();
+                    userService.listOccupatedRooms();
                     return true;
                 case "4":
-                    userService.cleanRoom();
+                    userService.listCleanRooms();
                     return true;
                 case "5":
-                    userService.checkIn();
+                    userService.cleanRoom();
                     return true;
                 case "6":
-                    userService.checkOut();
+                    userService.checkIn();
                     return true;
                 case "7":
+                    userService.checkOut();
+                    return true;
+                case "8":
                     System.out.println("Thank you for using Hotel Service.");
                     return false;
                 default:

@@ -26,6 +26,14 @@ public class UserService {
         }
     }
 
+    public void listOccupatedRooms() {
+        System.out.println("\nList of occupated rooms:\n");
+        List<Room> occupatedRooms = hotel.getOccupatedRooms();
+        for (Room room : occupatedRooms) {
+            System.out.println(room);
+        }
+    }
+
     public void listCleanRooms() {
         System.out.println("\nList of clean rooms:\n");
         List<Room> cleanRooms = hotel.getCleanRooms();
@@ -57,6 +65,7 @@ public class UserService {
         } else {
             System.out.println("At least one of guests have to be over 18 years old.");
             markRoomAsAvailable(selection);
+            selectedRoom.setClean(true);
         }
     }
 

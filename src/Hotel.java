@@ -25,6 +25,16 @@ public class Hotel {
         return availableRooms;
     }
 
+    public List<Room> getOccupatedRooms() {
+        List<Room> occupatedRooms = new ArrayList<>();
+        for (Room room : rooms) {
+            if (!room.isAvailable()) {
+                occupatedRooms.add(room);
+            }
+        }
+        return occupatedRooms;
+    }
+
     public Room getRoomOfGivenNumber(int roomNumber) {
         Room selectedRoom = null;
         for (Room room : rooms) {
