@@ -26,10 +26,10 @@ public class UserService {
         }
     }
 
-    public void listOccupatedRooms() {
-        System.out.println("\nList of occupated rooms:\n");
-        List<Room> occupatedRooms = hotel.getOccupatedRooms();
-        for (Room room : occupatedRooms) {
+    public void listOccupiedRooms() {
+        System.out.println("\nList of occupied rooms:\n");
+        List<Room> occupiedRooms = hotel.getOccupiedRooms();
+        for (Room room : occupiedRooms) {
             System.out.println(room);
         }
     }
@@ -42,14 +42,13 @@ public class UserService {
         }
     }
 
-    public void cleanRoom(){
+    public void cleanRoom() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter room's number:");
         int selection = scanner.nextInt();
         scanner.nextLine();
-        Room selectedRoom = hotel.getRoomOfGivenNumber(selection);
-        selectedRoom.setClean(true);
-        System.out.println(selectedRoom);
+        hotel.cleanRoom(selection);
+        System.out.println(hotel.getRoomOfGivenNumber(selection));
     }
 
     public void checkIn() {
@@ -57,27 +56,21 @@ public class UserService {
         System.out.println("Enter room's number:");
         int selection = scanner.nextInt();
         scanner.nextLine();
-        Room selectedRoom = hotel.getRoomOfGivenNumber(selection);
-        markRoomAsOccupied(selectedRoom);
-        addGuests(selectedRoom);
-        if (selectedRoom.isAnyGuestOver18()) {
-            System.out.println(hotel.getRoomOfGivenNumber(selection));
-        } else {
-            System.out.println("At least one of guests have to be over 18 years old.");
-            markRoomAsAvailable(selection);
-            selectedRoom.setClean(true);
-        }
+        hotel.initiateCheckIn(selection);
+        addGuests(selection);
+        hotel.validateCheckIn(selection);
+        System.out.println(hotel.getRoomOfGivenNumber(selection));
     }
 
-    private void addGuests(Room selectedRoom) {
+    private void addGuests(int selection) {
         System.out.println("\nAdd first guest.");
         boolean addingAnotherGuests = true;
         int numberOfGuests = 0;
+        int limitOfGuests = hotel.getLimitOfGuestsPerRoom(selection);
         while (addingAnotherGuests) {
-            Guest guest = createGuest();
-            selectedRoom.addGuest(guest);
+            addGuestToRoom(selection);
             numberOfGuests++;
-            if (numberOfGuests == selectedRoom.getNumberOfPersons()) {
+            if (numberOfGuests == limitOfGuests) {
                 addingAnotherGuests = false;
                 System.out.println("\nLimit of guests per room reached.");
             } else {
@@ -86,14 +79,14 @@ public class UserService {
         }
     }
 
-    private Guest createGuest() {
+    private void addGuestToRoom(int selection) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Name:");
         String name = scanner.nextLine();
         System.out.println("Surname:");
         String surname = scanner.nextLine();
         LocalDate dateOfBirth = obtainDateOfBirth();
-        return new Guest(name, surname, dateOfBirth);
+        hotel.addGuestToRoom(selection, name, surname, dateOfBirth);
     }
 
     private LocalDate obtainDateOfBirth() {
@@ -127,28 +120,13 @@ public class UserService {
         }
     }
 
-    private void markRoomAsOccupied(Room selectedRoom) {
-        if (selectedRoom.isAvailable() && selectedRoom.isClean()) {
-            selectedRoom.setAvailable(false);
-        } else {
-            throw new RoomNotReadyToCheckInException();
-        }
-    }
-
     public void checkOut() {
         System.out.println("Enter room's number:");
         Scanner scanner = new Scanner(System.in);
         int selection = scanner.nextInt();
         scanner.nextLine();
-        markRoomAsAvailable(selection);
+        hotel.markRoomAsAvailable(selection);
         System.out.println(hotel.getRoomOfGivenNumber(selection));
-    }
-
-    private void markRoomAsAvailable(int roomNumber) {
-        Room selectedRoom = hotel.getRoomOfGivenNumber(roomNumber);
-        selectedRoom.clearGuests();
-        selectedRoom.setAvailable(true);
-        selectedRoom.setClean(false);
     }
 
 }

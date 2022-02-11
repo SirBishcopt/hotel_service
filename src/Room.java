@@ -28,22 +28,6 @@ public class Room {
         }
     }
 
-    public boolean isAvailable() {
-        return isAvailable;
-    }
-
-    public void setAvailable(boolean available) {
-        isAvailable = available;
-    }
-
-    public int getRoomNumber() {
-        return roomNumber;
-    }
-
-    public int getNumberOfPersons() {
-        return numberOfPersons;
-    }
-
     @Override
     public String toString() {
         String availability;
@@ -65,12 +49,32 @@ public class Room {
         }
     }
 
-    public void addGuest(Guest guest) {
-        guests.add(guest);
+    public boolean isAvailable() {
+        return isAvailable;
     }
 
-    public void clearGuests() {
-        guests.clear();
+    public boolean isClean() {
+        return isClean;
+    }
+
+    public int getRoomNumber() {
+        return roomNumber;
+    }
+
+    public void setClean(boolean clean) {
+        isClean = clean;
+    }
+
+    public void setAvailable(boolean available) {
+        isAvailable = available;
+    }
+
+    public int getNumberOfPersons() {
+        return numberOfPersons;
+    }
+
+    public void addGuest(Guest guest) {
+        guests.add(guest);
     }
 
     public boolean isAnyGuestOver18() {
@@ -82,12 +86,8 @@ public class Room {
         return false;
     }
 
-    public void setClean(boolean clean) {
-        isClean = clean;
-    }
-
-    public boolean isClean() {
-        return isClean;
+    public void clearGuests() {
+        guests.clear();
     }
 
 }

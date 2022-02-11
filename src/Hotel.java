@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,14 +26,24 @@ public class Hotel {
         return availableRooms;
     }
 
-    public List<Room> getOccupatedRooms() {
-        List<Room> occupatedRooms = new ArrayList<>();
+    public List<Room> getOccupiedRooms() {
+        List<Room> occupiedRooms = new ArrayList<>();
         for (Room room : rooms) {
             if (!room.isAvailable()) {
-                occupatedRooms.add(room);
+                occupiedRooms.add(room);
             }
         }
-        return occupatedRooms;
+        return occupiedRooms;
+    }
+
+    public List<Room> getCleanRooms() {
+        List<Room> cleanRooms = new ArrayList<>();
+        for (Room room : rooms) {
+            if (room.isClean()) {
+                cleanRooms.add(room);
+            }
+        }
+        return cleanRooms;
     }
 
     public Room getRoomOfGivenNumber(int roomNumber) {
@@ -48,19 +59,46 @@ public class Hotel {
         return selectedRoom;
     }
 
-    public void cleanRoom (int roomNumber){
+
+    public void cleanRoom(int roomNumber) {
         Room selectedRoom = getRoomOfGivenNumber(roomNumber);
         selectedRoom.setClean(true);
     }
 
-    public List<Room> getCleanRooms() {
-        List<Room> cleanRooms = new ArrayList<>();
-        for (Room room : rooms) {
-            if (room.isClean()) {
-                cleanRooms.add(room);
-            }
+    public void initiateCheckIn(int roomNumber) {
+        Room selectedRoom = getRoomOfGivenNumber(roomNumber);
+        if (selectedRoom.isAvailable() && selectedRoom.isClean()) {
+            selectedRoom.setAvailable(false);
+            selectedRoom.setClean(false);
+        } else {
+            throw new RoomNotReadyToCheckInException();
         }
-        return cleanRooms;
+    }
+
+    public void validateCheckIn(int roomNumber) {
+        Room selectedRoom = getRoomOfGivenNumber(roomNumber);
+        if (!selectedRoom.isAnyGuestOver18()) {
+            selectedRoom.setAvailable(true);
+            selectedRoom.setClean(true);
+            throw new NoGuestOver18Exception();
+        }
+    }
+
+    public int getLimitOfGuestsPerRoom(int roomNumber) {
+        Room selectedRoom = getRoomOfGivenNumber(roomNumber);
+        return selectedRoom.getNumberOfPersons();
+    }
+
+    public void addGuestToRoom(int roomNumber, String name, String surname, LocalDate dateOfBirth) {
+        Room selectedRoom = getRoomOfGivenNumber(roomNumber);
+        selectedRoom.addGuest(new Guest(name, surname, dateOfBirth));
+    }
+
+    public void markRoomAsAvailable(int roomNumber) {
+        Room selectedRoom = getRoomOfGivenNumber(roomNumber);
+        selectedRoom.clearGuests();
+        selectedRoom.setAvailable(true);
+        selectedRoom.setClean(false);
     }
 
 }

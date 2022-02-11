@@ -15,7 +15,7 @@ public class Menu {
                 "\nWelcome to Hotel Service. What would you like to do? \n" +
                         "  1) List all rooms (with status).\n" +
                         "  2) List available rooms.\n" +
-                        "  3) List occupated rooms.\n" +
+                        "  3) List occupied rooms.\n" +
                         "  4) List clean rooms.\n" +
                         "  5) Clean room.\n" +
                         "  6) Room check-in.\n" +
@@ -34,7 +34,7 @@ public class Menu {
                     userService.listAvailableRooms();
                     return true;
                 case "3":
-                    userService.listOccupatedRooms();
+                    userService.listOccupiedRooms();
                     return true;
                 case "4":
                     userService.listCleanRooms();
