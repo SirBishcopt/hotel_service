@@ -43,23 +43,31 @@ public class UserService {
     }
 
     public void cleanRoom() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter room's number:");
-        int selection = scanner.nextInt();
-        scanner.nextLine();
-        hotel.cleanRoom(selection);
-        System.out.println(hotel.getRoomOfGivenNumber(selection));
+        try {
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Enter room's number:");
+            int selection = scanner.nextInt();
+            scanner.nextLine();
+            hotel.cleanRoom(selection);
+            System.out.println(hotel.getRoomOfGivenNumber(selection));
+        } catch (RoomDoesNotExistException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public void checkIn() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter room's number:");
-        int selection = scanner.nextInt();
-        scanner.nextLine();
-        hotel.initiateCheckIn(selection);
-        addGuests(selection);
-        hotel.validateCheckIn(selection);
-        System.out.println(hotel.getRoomOfGivenNumber(selection));
+        try {
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Enter room's number:");
+            int selection = scanner.nextInt();
+            scanner.nextLine();
+            hotel.initiateCheckIn(selection);
+            addGuests(selection);
+            hotel.validateCheckIn(selection);
+            System.out.println(hotel.getRoomOfGivenNumber(selection));
+        } catch (RoomDoesNotExistException | RoomNotReadyToCheckInException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private void addGuests(int selection) {
@@ -121,12 +129,16 @@ public class UserService {
     }
 
     public void checkOut() {
-        System.out.println("Enter room's number:");
-        Scanner scanner = new Scanner(System.in);
-        int selection = scanner.nextInt();
-        scanner.nextLine();
-        hotel.markRoomAsAvailable(selection);
-        System.out.println(hotel.getRoomOfGivenNumber(selection));
+        try {
+            System.out.println("Enter room's number:");
+            Scanner scanner = new Scanner(System.in);
+            int selection = scanner.nextInt();
+            scanner.nextLine();
+            hotel.markRoomAsAvailable(selection);
+            System.out.println(hotel.getRoomOfGivenNumber(selection));
+        } catch (RoomDoesNotExistException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
 }
