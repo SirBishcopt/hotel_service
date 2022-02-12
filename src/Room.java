@@ -23,6 +23,7 @@ public class Room {
         hasPrivateBathroom = random.nextBoolean();
         isAvailable = random.nextBoolean();
         if (!isAvailable) {
+            isClean = false;
             checkInDate = LocalDate.now().minusDays(random.nextInt(10) - 1);
             checkOutDate = LocalDate.now().plusDays(random.nextInt(11));
         }
